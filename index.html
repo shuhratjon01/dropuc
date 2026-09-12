@@ -11,36 +11,25 @@
 </head>
 <body>
 
-<!-- HOTBAR NAV -->
-<nav class="hotbar-wrap" aria-label="Навигация по сайту">
-  <a class="hotbar-slot" href="#top" aria-label="Главная">
-    <span class="label">Главная</span>
-    <svg viewBox="0 0 24 24"><path d="M12 2 2 9v13h7v-7h6v7h7V9z"/></svg>
-  </a>
-  <a class="hotbar-slot" href="#about" aria-label="О канале">
-    <span class="label">О канале</span>
-    <svg viewBox="0 0 24 24"><path d="M4 3h16v6H4zM4 15h10v6H4zM16 15h4v6h-4z"/></svg>
-  </a>
-  <a class="hotbar-slot" href="#features" aria-label="Особенности">
-    <span class="label">Особенности</span>
-    <svg viewBox="0 0 24 24"><path d="M12 2 2 7l10 5 10-5zM2 12l10 5 10-5M2 17l10 5 10-5"/></svg>
-  </a>
-  <a class="hotbar-slot" href="#videos" aria-label="Видео">
-    <span class="label">Видео</span>
-    <svg viewBox="0 0 24 24"><path d="M4 4h16v16H4z" fill="none" stroke="currentColor" stroke-width="0"/><path d="M8 5h8v3H8zM3 9h6v6H3zM11 9h10v6H11zM8 16h8v3H8z"/></svg>
-  </a>
-  <a class="hotbar-slot" href="#join" aria-label="Подписаться">
-    <span class="label">Подписаться</span>
-    <svg viewBox="0 0 24 24"><path d="M12 2 3 6v6c0 5 4 8.5 9 10 5-1.5 9-5 9-10V6z"/></svg>
-  </a>
-  <a class="hotbar-slot" href="https://t.me/dropuc_off" target="_blank" rel="noopener" aria-label="Телеграм">
-    <span class="label">Телеграм</span>
-    <svg viewBox="0 0 24 24"><path d="M21 4 3 11l6 2m12-9-4 16-6-5m10-11-9 9m9-9-3 3"/></svg>
-  </a>
-  <a class="hotbar-slot" href="https://www.donationalerts.com/r/Dropuc" target="_blank" rel="noopener" aria-label="Донат">
-    <span class="label">Донат</span>
-    <svg viewBox="0 0 24 24"><path d="M12 21s-7-4.35-9.5-8.5C.7 8.9 2.2 5 6 5c2.1 0 3.4 1.2 4 2.2A5 5 0 0 1 14 5c3.8 0 5.3 3.9 3.5 7.5C19 16.65 12 21 12 21z"/></svg>
-  </a>
+<!-- TOP NAVBAR -->
+<nav class="topbar" id="topbar">
+  <a href="#top" class="topbar-brand">DROPUC</a>
+
+  <button class="burger" id="burgerBtn" aria-label="Открыть меню" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+
+  <div class="topbar-panel" id="topbarPanel">
+    <a class="topbar-link" href="#top" data-close>Главная</a>
+    <a class="topbar-link" href="#about" data-close>О канале</a>
+    <a class="topbar-link" href="#features" data-close>Особенности</a>
+    <a class="topbar-link" href="#videos" data-close>Видео</a>
+    <a class="topbar-link" href="#join" data-close>Подписаться</a>
+    <a class="topbar-link" href="https://t.me/dropuc_off" target="_blank" rel="noopener">Телеграм</a>
+    <a class="topbar-link topbar-link-ember" href="https://www.donationalerts.com/r/Dropuc" target="_blank" rel="noopener">Донат</a>
+  </div>
+
+  <div class="topbar-scrim" id="topbarScrim"></div>
 </nav>
 
 <!-- HERO -->
@@ -158,10 +147,32 @@
 
 <script>
   document.documentElement.classList.add('js');
+
+  // scroll reveal
   const io = new IntersectionObserver((entries)=>{
     entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
   }, {threshold:0.1});
   document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  // top navbar: mobile burger + slide-in panel
+  const topbar = document.getElementById('topbar');
+  const burgerBtn = document.getElementById('burgerBtn');
+  const scrim = document.getElementById('topbarScrim');
+  const panelLinks = document.querySelectorAll('#topbarPanel [data-close]');
+
+  function openMenu(){
+    topbar.classList.add('menu-open');
+    burgerBtn.setAttribute('aria-expanded', 'true');
+  }
+  function closeMenu(){
+    topbar.classList.remove('menu-open');
+    burgerBtn.setAttribute('aria-expanded', 'false');
+  }
+  burgerBtn.addEventListener('click', ()=>{
+    topbar.classList.contains('menu-open') ? closeMenu() : openMenu();
+  });
+  scrim.addEventListener('click', closeMenu);
+  panelLinks.forEach(link => link.addEventListener('click', closeMenu));
 </script>
 
 </body>
