@@ -157,22 +157,40 @@
   // top navbar: mobile burger + slide-in panel
   const topbar = document.getElementById('topbar');
   const burgerBtn = document.getElementById('burgerBtn');
+  const topbarPanel = document.getElementById('topbarPanel');
   const scrim = document.getElementById('topbarScrim');
   const panelLinks = document.querySelectorAll('#topbarPanel [data-close]');
 
   function openMenu(){
     topbar.classList.add('menu-open');
     burgerBtn.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
   }
   function closeMenu(){
     topbar.classList.remove('menu-open');
     burgerBtn.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
   }
-  burgerBtn.addEventListener('click', ()=>{
+
+  burgerBtn.addEventListener('click', (e)=>{
+    e.stopPropagation();
     topbar.classList.contains('menu-open') ? closeMenu() : openMenu();
   });
-  scrim.addEventListener('click', closeMenu);
+
   panelLinks.forEach(link => link.addEventListener('click', closeMenu));
+
+  // close on ANY tap outside the panel/burger — pointerdown fires instantly, no mobile click delay
+  document.addEventListener('pointerdown', (e)=>{
+    if (!topbar.classList.contains('menu-open')) return;
+    if (topbarPanel.contains(e.target) || burgerBtn.contains(e.target)) return;
+    closeMenu();
+  });
+
+  scrim.addEventListener('click', closeMenu);
+
+  document.addEventListener('keydown', (e)=>{
+    if (e.key === 'Escape') closeMenu();
+  });
 </script>
 
 </body>
