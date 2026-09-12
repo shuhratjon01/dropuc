@@ -370,6 +370,8 @@ section{
 .about-card p:last-child{margin-bottom:0;}
 .about-card strong{color:var(--gold-soft);}
 
+#history .about-card p{ line-height:1.75; }
+
 .chest{
   aspect-ratio:1/1;
   background:
